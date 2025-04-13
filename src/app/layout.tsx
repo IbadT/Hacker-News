@@ -1,7 +1,9 @@
+'use client';
+
 import React from 'react';
 import { Inter } from 'next/font/google';
-import { ClientProviders } from './providers/ClientProviders';
 import './styles/globals.css';
+import { Providers } from '@/providers/Providers';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -13,11 +15,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ClientProviders>
+        <Providers>
           <main className="min-h-screen bg-gray-50">
             {children}
           </main>
-        </ClientProviders>
+        </Providers>
       </body>
     </html>
   );

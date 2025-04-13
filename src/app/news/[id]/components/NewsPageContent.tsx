@@ -5,11 +5,11 @@ import { useRouter } from 'next/navigation';
 import { CommentView } from '@/views/news/CommentView';
 import { RefreshButton } from '@/widgets/RefreshButton';
 
-interface NewsPageProps {
+interface NewsPageContentProps {
   id: string;
 }
 
-export const NewsPage: React.FC<NewsPageProps> = ({ id }) => {
+export const NewsPageContent: React.FC<NewsPageContentProps> = ({ id }) => {
   const router = useRouter();
 
   return (

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Comment } from '@/shared/types/news';
 import { fetchCommentById, fetchNewsComments } from '@/store/comments/slice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { Skeleton, Card } from 'antd';
 
 interface CommentItemProps {
   comment: Comment;
@@ -92,32 +93,39 @@ export const CommentTree: React.FC<CommentTreeProps> = ({ newsId }) => {
   };
 
   if (loading) {
-    return <div className="text-center py-8">Loading comments...</div>;
+    return (
+      <div className="space-y-4">
+        {[...Array(3)].map((_, index) => (
+          <Card key={index} className="w-full">
+            <Skeleton active paragraph={{ rows: 3 }} />
+          </Card>
+        ))}
+      </div>
+    );
   }
 
   if (error) {
     return <div className="text-center py-8 text-red-500">{error}</div>;
   }
 
-  console.log('Comments state:', comments);
-  console.log('Comment IDs:', commentIds);
-
-  const rootComments = commentIds
-    .map(id => comments[id])
-    .filter((comment): comment is Comment => comment !== undefined);
-
-  console.log('Root comments:', rootComments);
+  if (commentIds.length === 0) {
+    return <div className="text-center py-8 text-gray-500">No comments yet</div>;
+  }
 
   return (
-    <div className="space-y-4">
-      {rootComments.map((comment: Comment) => (
-        <CommentItem
-          key={comment.id}
-          comment={comment}
-          isExpanded={expandedComments.has(comment.id)}
-          onToggle={() => toggleComment(comment.id)}
-        />
-      ))}
+    <div className="space-y-6">
+      {commentIds.map(id => {
+        const comment = comments[id];
+        if (!comment) return null;
+        return (
+          <CommentItem
+            key={id}
+            comment={comment}
+            isExpanded={expandedComments.has(id)}
+            onToggle={() => toggleComment(id)}
+          />
+        );
+      })}
     </div>
   );
 }; 

@@ -1,6 +1,6 @@
 'use client'
 import React from 'react';
-import { NewsList } from '@/widgets/NewsList';
+import { NewsListView } from '@/views/news/NewsListView';
 import { RefreshButton } from '@/widgets/RefreshButton';
 
 export const HomePage: React.FC = () => {
@@ -10,7 +10,7 @@ export const HomePage: React.FC = () => {
         <h1 className="text-3xl font-bold">Hacker News</h1>
         <RefreshButton />
       </div>
-      <NewsList />
+      <NewsListView />
     </div>
   );
 }; 

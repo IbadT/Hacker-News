@@ -1,5 +1,8 @@
-import { NewsPage } from '@/pages/NewsPage';
+import { NewsPageContent } from './components/NewsPageContent';
 
-export default function Page({ params }: { params: { id: string } }) {
-  return <NewsPage id={params.id} />;
-} 
+// This is a Server Component
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
+
+  return <NewsPageContent id={resolvedParams.id} />;
+}
