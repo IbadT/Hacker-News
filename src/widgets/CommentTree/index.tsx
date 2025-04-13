@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { Comment } from '@/shared/types/news';
 import { fetchCommentById, fetchNewsComments } from '@/store/comments/slice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { Skeleton, Card } from 'antd';
 
 interface CommentItemProps {
   comment: Comment;
@@ -32,7 +31,7 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment, isExpanded, onToggle
       {comment.kids && comment.kids.length > 0 && (
         <button
           onClick={onToggle}
-          className="text-sm text-blue-500 hover:text-blue-700 mb-2"
+          className="text-sm text-blue-500 hover:text-blue-700 mb-2 ascii-nav-link"
         >
           {isExpanded ? 'Hide replies' : `Show ${comment.kids.length} replies`}
         </button>
@@ -60,6 +59,19 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment, isExpanded, onToggle
 interface CommentTreeProps {
   newsId: string;
 }
+
+const CommentSkeleton = () => (
+  <div className="pl-4 border-l-2 border-gray-200 mb-4">
+    <div className="mb-2">
+      <div className="h-4 w-32 bg-gray-700 rounded mb-2 animate-pulse"></div>
+      <div className="space-y-2">
+        <div className="h-4 w-full bg-gray-700 rounded animate-pulse"></div>
+        <div className="h-4 w-3/4 bg-gray-700 rounded animate-pulse"></div>
+        <div className="h-4 w-1/2 bg-gray-700 rounded animate-pulse"></div>
+      </div>
+    </div>
+  </div>
+);
 
 export const CommentTree: React.FC<CommentTreeProps> = ({ newsId }) => {
   const [expandedComments, setExpandedComments] = useState<Set<number>>(new Set());
@@ -96,24 +108,22 @@ export const CommentTree: React.FC<CommentTreeProps> = ({ newsId }) => {
     return (
       <div className="space-y-4">
         {[...Array(3)].map((_, index) => (
-          <Card key={index} className="w-full">
-            <Skeleton active paragraph={{ rows: 3 }} />
-          </Card>
+          <CommentSkeleton key={index} />
         ))}
       </div>
     );
   }
 
   if (error) {
-    return <div className="text-center py-8 text-red-500">{error}</div>;
+    return <div className="ascii-error">{error}</div>;
   }
 
   if (commentIds.length === 0) {
-    return <div className="text-center py-8 text-gray-500">No comments yet</div>;
+    return <div className="ascii-text">No comments yet</div>;
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {commentIds.map(id => {
         const comment = comments[id];
         if (!comment) return null;

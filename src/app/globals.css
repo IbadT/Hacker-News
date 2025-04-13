@@ -1,26 +1,282 @@
 @import "tailwindcss";
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --foreground-rgb: 255, 255, 255;
+  --background-rgb: 27, 40, 45;
+  --primary-color: rgb(18, 19, 21);
+  --secondary-color: rgb(27, 40, 45);
+  --accent-color: rgb(0, 128, 255);
+  --text-color: rgb(200, 200, 200);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+  font-family: 'Courier New', monospace;
 }
+
+/* ASCII Styling */
+.ascii-border {
+  border: 1px solid var(--accent-color);
+  box-shadow: 0 0 5px rgba(0, 128, 255, 0.3);
+}
+
+.ascii-header {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border-bottom: 1px solid var(--accent-color);
+  padding: 1rem 0;
+}
+
+.ascii-nav {
+  display: flex;
+  align-items: center;
+  font-family: 'Courier New', monospace;
+}
+
+.ascii-nav-link {
+  color: var(--text-color);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 5px rgba(0, 128, 255, 0.5);
+}
+
+.ascii-nav-link:hover {
+  color: white;
+  text-shadow: 0 0 8px rgba(0, 128, 255, 0.8);
+}
+
+.ascii-logo {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: white;
+  text-shadow: 0 0 10px rgba(0, 128, 255, 0.8);
+}
+
+.ascii-card {
+  background-color: var(--primary-color);
+  border: 1px solid var(--accent-color);
+  border-radius: 0.25rem;
+  box-shadow: 0 0 10px rgba(0, 128, 255, 0.2);
+}
+
+.ascii-title {
+  color: white;
+  text-shadow: 0 0 8px rgba(0, 128, 255, 0.6);
+}
+
+.ascii-text {
+  color: var(--text-color);
+}
+
+.ascii-button {
+  background-color: var(--primary-color);
+  border: 1px solid var(--accent-color);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.ascii-button:hover {
+  background-color: var(--accent-color);
+  box-shadow: 0 0 10px rgba(0, 128, 255, 0.5);
+}
+
+.ascii-link {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.ascii-link:hover {
+  color: white;
+  text-shadow: 0 0 8px rgba(0, 128, 255, 0.8);
+}
+
+.ascii-input {
+  background-color: var(--primary-color);
+  border: 1px solid var(--accent-color);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.ascii-input:focus {
+  border-color: white;
+  box-shadow: 0 0 10px rgba(0, 128, 255, 0.5);
+  outline: none;
+}
+
+.logo-shadow {
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+}
+
+/* Tree Structure Styling */
+.ascii-tree {
+  font-family: 'Courier New', monospace;
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+.tree-node {
+  margin-bottom: 0.5rem;
+}
+
+.tree-branch {
+  display: flex;
+  align-items: center;
+}
+
+.tree-line {
+  color: var(--accent-color);
+  margin-right: 0.5rem;
+  font-weight: bold;
+}
+
+.tree-label {
+  color: var(--accent-color);
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.tree-value {
+  color: white;
+}
+
+.tree-content {
+  margin-left: 1rem;
+  border-left: 1px dashed rgba(0, 128, 255, 0.3);
+  padding-left: 1rem;
+}
+
+@layer utilities {
+  .ascii-border {
+    @apply border border-[rgb(0,149,255)] p-1;
+  }
+
+  .ascii-header {
+    @apply bg-[rgb(24,25,29)] text-[#ffffff] py-2 px-4;
+    /* @apply bg-[rgb(18,19,21)] text-[#ffffff] px-4; */
+    border-top: 1px solid rgb(0, 149, 255);
+    border-bottom: 1px solid rgb(0, 149, 255);
+  }
+
+  .ascii-nav {
+    @apply flex items-center gap-4 font-mono;
+  }
+
+  .ascii-nav-link {
+    @apply text-[rgb(0,149,255)] hover:text-[rgb(255,255,255)] transition-colors no-underline font-mono hover:cursor-pointer;
+    text-shadow: 1px 1px 0 rgb(0, 149, 255);
+  }
+
+  .ascii-logo {
+    @apply font-mono text-xl font-bold text-[rgb(0,149,255)];
+    text-shadow: 2px 2px 0 rgb(0, 149, 255);
+  }
+
+  .logo-shadow {
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+  }
+
+  .hn-button {
+    @apply bg-[rgb(18,19,21)] hover:bg-[rgb(27,40,45)] text-[#ffffff] font-[500] py-2 px-4 rounded-none border border-[rgb(0,149,255)] hover:border-[rgb(0,149,255)] transition-colors;
+  }
+
+  .hn-link {
+    @apply text-[rgb(0,149,255)] hover:text-[rgb(255,255,255)] transition-colors no-underline;
+  }
+
+  .hn-card {
+    @apply bg-[rgb(18,19,21)] rounded-none shadow-sm border border-[rgb(27,40,45)] hover:border-[rgb(0,149,255)] transition-colors;
+  }
+
+  .hn-title {
+    @apply text-[rgb(0,149,255)] font-[700] text-lg;
+  }
+
+  .hn-text {
+    @apply text-[rgb(200,200,200)] text-sm;
+  }
+
+  .hn-header {
+    @apply bg-[rgb(18,19,21)] text-[#ffffff] py-2 px-4 border-b border-[rgb(27,40,45)];
+  }
+
+  .hn-container {
+    @apply max-w-[1200px] mx-auto px-4;
+  }
+
+  .hn-nav {
+    @apply flex items-center gap-4;
+  }
+
+  .hn-nav-link {
+    @apply text-[rgb(200,200,200)] hover:text-[rgb(0,149,255)] transition-colors no-underline;
+  }
+}
+
+
+
+
+
+/* 
+@import "tailwindcss";
+
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-rgb: 27, 40, 45;
+  --primary-color: rgb(18, 19, 21);
+  --secondary-color: rgb(27, 40, 45);
+  --accent-color: rgb(0, 149, 255);
+  --text-primary: rgb(255, 255, 255);
+  --text-secondary: rgb(200, 200, 200);
+}
+
+body {
+  color: var(--text-primary);
+  background: rgb(var(--background-rgb));
+  font-family: Verdana, Geneva, sans-serif;
+}
+
+@layer utilities {
+  .hn-button {
+    @apply bg-[rgb(18,19,21)] hover:bg-[rgb(27,40,45)] text-[#ffffff] font-[500] py-2 px-4 rounded-none border border-[rgb(0,149,255)] hover:border-[rgb(0,149,255)] transition-colors;
+  }
+
+  .hn-link {
+    @apply text-[rgb(0,149,255)] hover:text-[rgb(255,255,255)] transition-colors no-underline;
+  }
+
+  .hn-card {
+    @apply bg-[rgb(18,19,21)] rounded-none shadow-sm border border-[rgb(27,40,45)] hover:border-[rgb(0,149,255)] transition-colors;
+  }
+
+  .hn-title {
+    @apply text-[rgb(0,149,255)] font-[700] text-lg;
+  }
+
+  .hn-text {
+    @apply text-[rgb(200,200,200)] text-sm;
+  }
+
+  .hn-header {
+    @apply bg-[rgb(18,19,21)] text-[#ffffff] py-2 px-4 border-b border-[rgb(27,40,45)];
+  }
+
+  .hn-container {
+    @apply max-w-[1200px] mx-auto px-4;
+  }
+
+  .hn-nav {
+    @apply flex items-center gap-4;
+  }
+
+  .hn-nav-link {
+    @apply text-[rgb(200,200,200)] hover:text-[rgb(0,149,255)] transition-colors no-underline;
+  }
+} */

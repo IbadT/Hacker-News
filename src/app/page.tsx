@@ -2,31 +2,21 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
-import { HomePage } from '@/pages/HomePage';
-import { LoginPage } from '@/pages/LoginPage';
 
-export default function Page() {
-  const { isAuthenticated, loading } = useAuth();
+export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
+    // Check if user is authenticated
+    const isAuthenticated = localStorage.getItem('isAuthenticated');
+    if (isAuthenticated) {
+      router.push('/dashboard');
+    } else {
       router.push('/login');
     }
-  }, [isAuthenticated, loading, router]);
+  }, [router]);
 
-  // useEffect(() => {
-  //   if (!loading && !isAuthenticated && typeof window !== "undefined") {
-  //     router.push("/login");
-  //   }
-  // }, [isAuthenticated, loading, router]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  return isAuthenticated ? <HomePage /> : <LoginPage />;
+  return null;
 }
 
 

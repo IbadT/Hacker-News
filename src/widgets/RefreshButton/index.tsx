@@ -1,34 +1,39 @@
 'use client';
 
 import React from 'react';
-import { useAppDispatch } from '@/store/hooks';
-import { fetchNewsList } from '@/store/news/slice';
-import { Button } from 'antd';
 import { ReloadOutlined } from '@ant-design/icons';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { fetchNewsList } from '@/store/news/slice';
+import { fetchNewsComments } from '@/store/comments/slice';
 
 interface RefreshButtonProps {
-  onClick?: () => void;
+  newsId?: string;
 }
 
-export const RefreshButton: React.FC<RefreshButtonProps> = ({ onClick }) => {
+export const RefreshButton: React.FC<RefreshButtonProps> = ({ newsId }) => {
   const dispatch = useAppDispatch();
+  const { loading: newsLoading } = useAppSelector((state) => state.news);
+  const { loading: commentsLoading } = useAppSelector((state) => state.comments);
 
   const handleRefresh = () => {
-    // Always fetch fresh news data when the refresh button is clicked
-    dispatch(fetchNewsList());
-    if (onClick) {
-      onClick();
+    if (newsId) {
+      // If newsId is provided, refresh comments for that news item
+      dispatch(fetchNewsComments(parseInt(newsId)));
+    } else {
+      // Otherwise refresh the news list
+      dispatch(fetchNewsList());
     }
   };
 
+  const isLoading = newsId ? commentsLoading : newsLoading;
+
   return (
-    <Button
+    <button
       onClick={handleRefresh}
-      icon={<ReloadOutlined />}
-      type="primary"
-      className="flex items-center"
+      className="hn-button flex items-center gap-2 hover:cursor-pointer"
     >
+      <ReloadOutlined className={isLoading ? 'animate-spin' : ''} />
       Refresh News
-    </Button>
+    </button>
   );
 }; 

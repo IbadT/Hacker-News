@@ -2,28 +2,35 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { NewsItem } from '@/app/store/slices/newsSlice';
 
 interface NewsCardProps {
-  id: number;
-  title: string;
-  score: number;
-  by: string;
-  time: number;
+  item: NewsItem;
 }
 
-export const NewsCard: React.FC<NewsCardProps> = ({ id, title, score, by, time }) => {
+const NewsCard: React.FC<NewsCardProps> = ({ item }) => {
+  const { id, title, score, by, time, url, descendants } = item;
+  const date = new Date(time * 1000).toLocaleDateString();
+
   return (
-    <Link href={`/news/${id}`}>
-      <div className="p-4 border rounded-lg hover:bg-gray-50 cursor-pointer">
-        <h2 className="text-xl font-semibold mb-2">{title}</h2>
-        <div className="flex items-center text-sm text-gray-600">
-          <span>{score} points</span>
-          <span className="mx-2">•</span>
-          <span>by {by}</span>
-          <span className="mx-2">•</span>
-          <span>{new Date(time * 1000).toLocaleDateString()}</span>
-        </div>
+    <div className="ascii-card p-4 mb-4 border border-gray-700 rounded">
+      <div className="flex items-center justify-between">
+        <Link href={url || `/news/${id}`} className="text-lg font-bold hover:text-blue-400">
+          {title}
+        </Link>
+        <span className="text-sm text-gray-400">[{score}]</span>
       </div>
-    </Link>
+      <div className="mt-2 text-sm text-gray-500">
+        <span>by {by}</span>
+        <span className="mx-2">|</span>
+        <span>{date}</span>
+        <span className="mx-2">|</span>
+        <Link href={`/news/${id}`} className="hover:text-blue-400">
+          {descendants} comments
+        </Link>
+      </div>
+    </div>
   );
-}; 
+};
+
+export default NewsCard; 
